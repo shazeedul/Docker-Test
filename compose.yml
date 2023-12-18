@@ -1,4 +1,4 @@
-version: "3"
+version: "3.*"
 
 services:
   # Laravel Backend
@@ -8,8 +8,13 @@ services:
     container_name: laravel_app
     volumes:
       - ./laravel:/app/laravel
+    environment:
+      - "DB_HOST=mysql"
+      - "DB_DATABASE=laravel"
+      - "DB_USERNAME=root"
+      - "DB_PASSWORD=password123"
     ports:
-      - "9000:9000"
+      - "9000:8000"
     depends_on:
       - mysql
     networks:
@@ -37,7 +42,7 @@ services:
       PMA_ARBITARY: 1
       PMA_HOST: mysql
       PMA_USER: root
-      PMA_PASSWORD: password
+      PMA_PASSWORD: password123
     ports:
       - "8090:80"
     depends_on:
@@ -58,7 +63,7 @@ services:
       MYSQL_DATABASE: laravel
       MYSQL_USER: laravel_user
       MYSQL_PASSWORD: laravel_password
-      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_HOST: "%"
     ports:
       - "3307:3306"
     networks:
@@ -69,4 +74,5 @@ volumes:
 
 networks:
   laravel:
+    name: laravel
     external: true
